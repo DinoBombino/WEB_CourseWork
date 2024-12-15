@@ -45,19 +45,7 @@ class UserViewset(GenericViewSet):
     def logout(self, request, *args, **kwargs):
         logout(request)
         return Response({"success": True})
-    ###############
-    # @action(url_path="list", detail=False, methods=["GET"], permission_classes=[IsAdminUser])
-    # def list_users(self, request, *args, **kwargs):
-    #     """Возвращает список всех пользователей (только для суперюзеров)."""
-    #     users = User.objects.all().values("id", "username")
-    #     return Response(users)
-
-##############
-# class UserViewset(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer  
-#     permission_classes = [IsAdminUser]
-##############
+    
 
 class CarsViewset(
     mixins.ListModelMixin,
@@ -86,35 +74,7 @@ class CarsViewset(
         # фильтруем по текущему юзеру
         qs = qs.filter(user=self.request.user)
         return qs
-    # def get_queryset(self):
-    #     qs = super().get_queryset()
-
-    #     # Логика для суперпользователя
-    #     if self.request.user.is_superuser:
-    #         user_id = self.request.query_params.get('user_id')  # Параметр фильтрации
-    #         if user_id:
-    #             qs = qs.filter(user_id=user_id)
-    #         return qs
-
-    #     # Логика для обычного пользователя
-    #     elif self.request.user.is_authenticated:
-    #         return qs.filter(user=self.request.user)
-
-    #     # Если пользователь не аутентифицирован, ничего не возвращаем
-    #     return qs.none()
-    # def get_queryset(self):
-    #     qs = super().get_queryset()
-        
-    #     if self.request.user.is_superuser:
-    #         user_id = self.request.querry_params.get('user_id')
-    #         if user_id:
-    #             qs = qs.filter(user_id = user_id)
-                
-    #     elif self.request.user.is_authenticated:
-    #         qs = qs.filter(user = self.request.user)
-            
-    #     else:
-    #         return qs.none()
+   
     
     @action(detail=False, methods=["GET"], url_path="stats")
     def stats(self, request, *args, **kwargs):
@@ -150,38 +110,6 @@ class CarsViewset(
         response['Content-Disposition'] = 'attachment; filename=cars.xlsx'
         wb.save(response)
         return response
-    
-    
-    # def get_queryset(self):
-    #     qs = Car.objects.all()
-        
-    #     # Если пользователь суперпользователь, то возвращаем все автомобили, иначе только его собственные
-    #     if self.request.user.is_superuser:
-    #         user_id = self.request.query_params.get('user_id', None)
-    #         if user_id:
-    #             # Если передан параметр user_id, фильтруем по этому пользователю
-    #             qs = qs.filter(user__id=user_id)
-    #     else:
-    #         # Если не суперпользователь, показываем только его автомобили
-    #         qs = qs.filter(user=self.request.user)
-        
-    #     return qs
-    
-    # def get_queryset(self):
-        
-    #     user = self.request.user
-    #     queryset = Car.objects.all()
-
-    #     # Если суперпользователь, можно фильтровать по пользователю
-    #     if user.is_superuser:
-    #         user_filter = self.request.query_params.get('user', None)
-    #         if user_filter:
-    #             queryset = queryset.filter(owner__id=user_filter)
-    #     else:
-    #         queryset = queryset.filter(owner=user)
-        
-    #     return queryset
-    
 
 class DriveViewset(
     mixins.ListModelMixin,
@@ -246,10 +174,3 @@ class TransmissionTypeViewset(
         if self.action in ('create', 'update'):
             return TransmissionTypeCreateSerializer
         return super().get_serializer_class()
-    
-    
-    
-    # def destroy(self, request, *args, **kwargs):
-    #     car = self.get_object()
-    #     car.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)

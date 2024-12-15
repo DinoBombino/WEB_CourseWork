@@ -61,14 +61,11 @@ class Drive(models.Model):
 #Автомобиль
 class Car(models.Model):
     name = models.TextField("Название")
-    # drive_name = models.TextField("Привод")
     drive = models.ForeignKey("Drive", on_delete=models.CASCADE, null=True)
     etype = models.ForeignKey("EngineType", on_delete=models.CASCADE, null=True)
     btype = models.ForeignKey("BodyType", on_delete=models.CASCADE, null=True)
     trtype = models.ForeignKey("TransmissionType", on_delete=models.CASCADE, null=True)
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     user = models.ForeignKey("auth.User", verbose_name="Пользователь", on_delete=models.CASCADE, null=True)
-    # owner = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE, null=True)
     
     picture = models.ImageField("Изображение", null=True, upload_to="cars")
     

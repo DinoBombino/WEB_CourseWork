@@ -1,4 +1,4 @@
-# import random
+# import random #через консоль
 # from cars.models import Car, Drive, EngineType, BodyType, TransmissionType
 # from django.contrib.auth.models import User
 

@@ -47,37 +47,10 @@ const carsEditPictureRef = ref();
 const selectedPicture = ref(null);  // для хранения выбранной картинки
 
 const filter = ref(null); // Переменная для фильтрации, например, по user_id
-// const filter = ref("all"); // начальное значение фильтра
 
-// Функция для загрузки списка пользователей
-// async function fetchUsers() {
-//     loading.value = true;
-//     const r = await axios.get("/api/auth/");  
-//     users.value = r.data;
-//     loading.value = false;
-// }
-
-// async function fetchCars() {
-//     loading.value = true;
-//     const r = await axios.get("/api/cars/", {
-//         params: { 
-//             user_id: selectedUser.value ? selectedUser.value : null,  // Фильтруем по выбранному пользователю
-//         }
-//     }); 
-//     console.log(r.data);
-//     cars.value = r.data;
-//     loading.value = false;
-// }
 
 async function fetchCars() {
     loading.value = true;
-    // const r = await axios.get("api/cars/");
-    // const r = await axios.get("/api/cars/", {
-    //     params: {
-    //         user_id: 2,
-    //     }
-    // });
-    // const userId = filter.value === "all" ? null : filter.value;
 
     const r = await axios.get("/api/cars/", {
         params: {
@@ -134,34 +107,8 @@ async function onLoadClick() {
     await fetchCars()
 }
 
-//////////////////////////////////////////////////
-// async function fetchUserInfo() {
-//     const r = await axios.get("/api/userinfo/"); // Получаем данные о текущем пользователе
-//     isSuperUser.value = r.data.is_superuser;  // Проверяем, суперпользователь ли
-// }
-//////////////////////////////////////////////////
-
-////////////////
-// async function fetchUsers() {
-//   if (userStore.isSuperUser) {
-//     try {
-//       const r = await axios.get("/api/users/"); // API для получения всех пользователей
-//       users.value = r.data;
-//     } catch (error) {
-//       console.error("Ошибка при загрузке пользователей:", error);
-//     }
-//   }
-// }
-////////////////
 
 onBeforeMount(async () => {
-
-    // await userStore.fetchUser();
-    // isSuperuser.value = userStore.isAuthenticated && userStore.username === "admin"; // Проверка суперюзера
-    // if (isSuperuser.value) {
-    //     fetchUsers();
-    // }
-
     await fetchDrives()
     await fetchCars()
     await fetchEngines()
@@ -293,57 +240,6 @@ function openImageModal(image) {
         </div>
     </form>
 
-
-    <!--<div>
-        <div v-if="isAdmin">
-            <select v-model="selectedUserFilter" @change="fetchCars">
-                <option value="all">Все автомобили</option>
-                <option value="current">Только мои автомобили</option>
-                <option v-for="user in users" :key="user.id" :value="user.id">
-                    {{ "Пользователь: " + user.username }}
-                </option>
-            </select>
-        </div>
-
-        <div v-if="loading">Загрузка...</div>
-        <div v-for="car in cars" :key="car.id">
-            <p>{{ car.model }}</p>
-        </div>
-    </div>-->
-    <!-- Селект доступен только суперпользователю -->
-    <!--<div v-if="userStore.isSuperUser">
-        <label for="userSelect">Выберите пользователя:</label>
-        <select id="userSelect" v-model="filter" @change="fetchCars">
-            <option value="all">Все записи</option>
-            <option v-for="user in users" :key="user.id" :value="user.id">
-                {{ user.username }}
-            </option>
-        </select>
-    </div>-->
-
-    <!--<div v-if="userStore.isAuthenticated && userStore.userId">
-        <div v-if="userStore.isSuperUser">
-            <label for="userSelect">Выберите пользователя:</label>
-            <select id="userSelect" v-model="filter" @change="fetchCars">
-                <option value="all">Все записи</option>
-                <option v-for="user in users" :key="user.id" :value="user.id">
-                    {{ user.username }}
-                </option>
-            </select>
-        </div>
-
-        <div v-else>
-            <p>Вы не суперпользователь, селект недоступен.</p>
-        </div>
-    </div>-->
-
-    <!--########################Remove#######################-->
-    <!--<div v-for="item in cars" class="car-item">
-        <div>{{ item.name }}</div>
-        <button class="btn btn-danger" @click="onRemoveClick(item)">
-            <i class="bi bi-x">Remove</i>
-        </button>
-    </div>-->
     <!--########################Delete#######################-->
     <div class="modal fade" id="editCarModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
@@ -425,17 +321,6 @@ function openImageModal(image) {
             </div>
         </div>
     </div>
-
-    <!--<div v-for="item in cars" class="car-item">
-    <div>{{ item.name }}</div>
-    <button class="btn btn-success" @click="onCarEditClick(item)" data-bs-toggle="modal"
-      data-bs-target="#editCarModal">
-      <i class="bi bi-pen-fill">Edit</i>
-    </button>
-    <button class="btn btn-danger" @click="onRemoveClick(item)">
-      <i class="bi bi-x">Remove</i>
-    </button>
-  </div>-->
 
     <!--Карточка машинки-->
     <div class="row">

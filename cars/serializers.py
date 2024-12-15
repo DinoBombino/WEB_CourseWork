@@ -76,12 +76,3 @@ class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
         fields = ['id', 'name', 'drive', 'etype', 'btype', 'trtype', 'picture', 'user']
-        
-
-# from rest_framework import serializers
-# from django.contrib.auth.models import User
-
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['id', 'username', 'email']  # Сюда можно добавить другие поля, например, first_name, last_name
